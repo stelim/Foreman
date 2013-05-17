@@ -15,10 +15,15 @@ say "hello world! => $$result_ref";
 $result_ref = $client->do_task("bar" => 2);
 say "2 => $$result_ref";
 
+$result_ref = $client->do_task("baz" => 3);
+say "3 => $$result_ref";
+
 my $completed = sub {
     my $params = shift;
     say $$params;
 };
+
+
 
 say "running more tasks on one worker";
 my $task_set = $client->new_task_set;
@@ -31,11 +36,6 @@ $task_set->add_task(foo => "foobar", {
     high_priority => 1,
     on_complete => $completed
 });
-$task_set->add_task(bar => 100, {
-    on_complete => $completed
-});
-
-
 
 say "is something done? - no?";
 
